@@ -67,15 +67,15 @@
       "no-consecutive-blank-lines": [
           true
       ],
-      "no-console": [
-          true,
-          "debug",
-          "info",
-          "log",
-          "time",
-          "timeEnd",
-          "trace"
-      ],
+    //   "no-console": [
+    //       true,
+    //       "debug",
+    //       "info",
+    //       "log",
+    //       "time",
+    //       "timeEnd",
+    //       "trace"
+    //   ],
       "no-construct": true,
       "no-debugger": true,
       "no-duplicate-super": true,
