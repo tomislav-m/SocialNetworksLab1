@@ -3,6 +3,7 @@ import * as logger from 'morgan';
 import * as bodyParser from 'body-parser';
 import { Routes } from './routes/UserRoutes';
 import * as mongoose from 'mongoose';
+import * as cors from 'cors';
 
 class App {
   public app: express.Application;
@@ -11,6 +12,7 @@ class App {
 
   constructor () {
     this.app = express();
+    this.app.use(cors({credentials: true, origin: true}));
     this.middleware();
     this.app.get('/api', (req, res, next) => {
       res.send('API home');
