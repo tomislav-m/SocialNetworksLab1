@@ -17,10 +17,12 @@
     "cors": "^2.8.4",
     "express": "^4.16.3",
     "mongoose": "^5.3.1",
-    "morgan": "^1.9.1"
+    "morgan": "^1.9.1",
+    "node-fetch": "^2.2.0"
   },
   "devDependencies": {
     "@types/morgan": "^1.7.35",
+    "@types/node-fetch": "^2.1.2",
     "tslint": "^5.11.0",
     "typescript": "^3.1.1"
   }

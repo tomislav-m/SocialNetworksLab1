@@ -3,7 +3,7 @@ import { Router } from 'express';
 
 const baseUrl: string = '/api';
 
-export class Routes {
+export class UserRoutes {
   public userController: UserController = new UserController();
 
   public routes(app: Router): void {

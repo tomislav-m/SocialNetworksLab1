@@ -16,9 +16,9 @@ export function getUser(userId: string) {
     });
 }
 
-export function saveUser(user: any) {
-  return fetch(url, {
-    method: 'POST',
+export function updateUser(user: any) {
+  return fetch(`${url}/${user.userId}`, {
+    method: 'PUT',
     body: JSON.stringify(user),
     headers: {
       'Content-Type': 'application/json'

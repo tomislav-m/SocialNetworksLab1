@@ -1,13 +1,15 @@
 import * as express from 'express';
 import * as logger from 'morgan';
 import * as bodyParser from 'body-parser';
-import { Routes } from './routes/UserRoutes';
+import { UserRoutes } from './routes/UserRoutes';
+import { TeamRoutes } from './routes/TeamRoutes';
 import * as mongoose from 'mongoose';
 import * as cors from 'cors';
 
 class App {
   public app: express.Application;
-  public usersRoutes: Routes = new Routes();
+  public usersRoutes: UserRoutes = new UserRoutes();
+  public teamsRoutes: TeamRoutes = new TeamRoutes();
   public mongoUrl: string = 'mongodb://tomislav:snlab1@ds125683.mlab.com:25683/snlab1';
 
   constructor () {
@@ -18,6 +20,7 @@ class App {
       res.send('API home');
     });
     this.usersRoutes.routes(this.app);
+    this.teamsRoutes.routes(this.app);
     this.handleErrors();
     this.mongoSetup();
   }

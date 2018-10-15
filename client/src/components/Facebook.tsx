@@ -1,7 +1,7 @@
 import * as React from 'react';
 import FacebookLogin from 'react-facebook-login';
 import autobind from 'autobind-decorator';
-import { getUser, saveUser } from 'src/actions/facebookActions';
+import { updateUser } from 'src/actions/facebookActions';
 
 interface IFacebookState {
   isLoggedIn: boolean;
@@ -33,17 +33,8 @@ export default class Facebook extends React.Component<{}, IFacebookState> {
     if (!this.state.isLoggedIn || !updated) {
       return;
     }
-    getUser(this.state.userId)
-      .then((user: any) => {
-        if (user) {
-          return;
-        }
-        user = this.state;
-        saveUser(user)
-          .then(() => {
-            console.log(`${user.firstName} ${user.lastName} successfully registered!`);
-          });
-      });
+    const user = this.state;
+    updateUser(user);
   }
 
   @autobind
