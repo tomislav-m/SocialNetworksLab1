@@ -19,7 +19,6 @@ export const UserSchema = new Schema({
     type: String,
     required: true
   },
-  favoriteTeams: [ String ],
   _id: {
     type: String,
     required: true

@@ -2,6 +2,11 @@ import * as React from 'react';
 import FacebookLogin from 'react-facebook-login';
 import autobind from 'autobind-decorator';
 import { updateUser } from 'src/actions/facebookActions';
+//import { Button } from 'react-bootstrap';
+
+interface IFacebookProps {
+  setLoginStatus(isLoggedIn: boolean): void;
+}
 
 interface IFacebookState {
   isLoggedIn: boolean;
@@ -10,7 +15,6 @@ interface IFacebookState {
   lastName: string;
   email: string;
   pictureUrl: string;
-  favoriteTeams: Array<string>;
 }
 
 const defaultState: IFacebookState = {
@@ -19,26 +23,33 @@ const defaultState: IFacebookState = {
   firstName: '',
   lastName: '',
   email: '',
-  pictureUrl: '',
-  favoriteTeams: []
+  pictureUrl: ''
 };
 
-export default class Facebook extends React.Component<{}, IFacebookState> {
+export default class Facebook extends React.Component<IFacebookProps, IFacebookState> {
+  constructor(props: IFacebookProps) {
+    super(props);
+  }
+
   public state: IFacebookState = {
     ...defaultState
   };
 
   public componentDidUpdate(prevProps: any, prevState: IFacebookState) {
     const updated: boolean = prevState.userId !== this.state.userId;
-    if (!this.state.isLoggedIn || !updated) {
-      return;
+    if (updated) {
+      this._onUpdate();
+      if (!this.state.isLoggedIn) {
+        return;
+      }
+      const user = this.state;
+      updateUser(user);
     }
-    const user = this.state;
-    updateUser(user);
   }
 
   @autobind
   private _responseFacebook(response: any) {
+    console.log(response);
     if (response.error) {
       return;
     }
@@ -48,14 +59,13 @@ export default class Facebook extends React.Component<{}, IFacebookState> {
       firstName: response.first_name,
       lastName: response.last_name,
       email: response.email,
-      pictureUrl: response.picture.data.url,
-      favoriteTeams: (response.favorite_teams as Array<any>).map(team => team.name)
+      pictureUrl: response.picture.data.url
     });
     console.log(`${response.first_name} ${response.last_name} successfully logged in!`);
   }
 
   @autobind
-  private _onLogout() {
+  public _onLogout() {
     if (this.state.isLoggedIn) {
       const promise = new Promise((resolve, reject) => {
         (window as any).FB.logout();
@@ -72,6 +82,11 @@ export default class Facebook extends React.Component<{}, IFacebookState> {
     }
   }
 
+  @autobind
+  private _onUpdate() {
+    this.props.setLoginStatus(this.state.isLoggedIn);
+  }
+
   public render() {
     let fbContent: any;
 
@@ -80,7 +95,7 @@ export default class Facebook extends React.Component<{}, IFacebookState> {
         <FacebookLogin
           appId="129505914269596"
           autoLoad={true}
-          fields="first_name,last_name,email,picture.type(large),favorite_teams"
+          fields="first_name,last_name,email,picture.type(large)"
           callback={this._responseFacebook}
           size="metro"
         />
@@ -92,7 +107,6 @@ export default class Facebook extends React.Component<{}, IFacebookState> {
             src={this.state.pictureUrl}
             alt={`${this.state.firstName} ${this.state.lastName}`}
           />
-          <button onClick={this._onLogout}>Logout</button>
         </div>
       );
     }
