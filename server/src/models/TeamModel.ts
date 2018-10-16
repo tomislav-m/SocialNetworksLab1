@@ -11,6 +11,7 @@ export const TeamSchema = new Schema({
     type: String,
     required: true
   },
+  teamLogoUrl: String,
   country: String,
   league: String,
   website: String,

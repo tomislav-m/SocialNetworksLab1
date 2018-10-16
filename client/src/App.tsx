@@ -2,25 +2,38 @@ import * as React from 'react';
 import './App.css';
 
 import Facebook from './components/Facebook';
-import { Navbar, Nav, NavItem } from 'react-bootstrap';
+import TeamTile, { ITeamProps } from './components/TeamTile';
+import { Navbar, Nav, NavItem, Image, Grid, Row, Col } from 'react-bootstrap';
 import autobind from 'autobind-decorator';
 import { createRef } from 'react';
+import Teams from './components/Teams';
+
+const data: Array<ITeamProps> = [
+  { name: 'Barcelona', sport: 'Football' },
+  { name: 'Real Madrid', sport: 'Football' },
+  { name: 'Sevilla', sport: 'Football' },
+  { name: 'Valencia', sport: 'Football' },
+  { name: 'Atletico Madrid', sport: 'Football' }
+];
 
 interface IAppState {
   isLoggedIn: boolean;
+  name: string;
 }
 
 class App extends React.Component<{}, IAppState> {
   public state: IAppState = {
-    isLoggedIn: false
+    isLoggedIn: false,
+    name: ''
   };
 
   private myRef: React.RefObject<Facebook> = createRef<Facebook>();
 
   @autobind
-  private setLogged(isLoggedIn: boolean) {
+  private setLogged(isLoggedIn: boolean, name: string) {
     this.setState({
-      isLoggedIn
+      isLoggedIn,
+      name
     });
   }
 
@@ -32,27 +45,31 @@ class App extends React.Component<{}, IAppState> {
   }
 
   public render() {
+    const { isLoggedIn } = this.state;
     return (
-      <div className="App">
+      <div>
         <Navbar inverse>
           <Navbar.Header>
             <Navbar.Brand>SportsDataApp</Navbar.Brand>
           </Navbar.Header>
-          {this.state.isLoggedIn &&
+          {isLoggedIn &&
             <Nav pullRight>
+              <NavItem>
+                {this.state.name}
+              </NavItem>
               <NavItem href="#" onClick={this._logout}>
                 Logout
               </NavItem>
             </Nav>
           }
         </Navbar>
-        <p className="App-intro">
-          To get started, authenticate with Facebook.
-        </p>
         <Facebook
           setLoginStatus={this.setLogged}
           ref={this.myRef}
         />
+        {isLoggedIn &&
+          <Teams teams={data}/>
+        }
       </div>
     );
   }

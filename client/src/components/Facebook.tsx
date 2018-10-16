@@ -2,10 +2,9 @@ import * as React from 'react';
 import FacebookLogin from 'react-facebook-login';
 import autobind from 'autobind-decorator';
 import { updateUser } from 'src/actions/facebookActions';
-//import { Button } from 'react-bootstrap';
 
 interface IFacebookProps {
-  setLoginStatus(isLoggedIn: boolean): void;
+  setLoginStatus(isLoggedIn: boolean, name: string): void;
 }
 
 interface IFacebookState {
@@ -84,7 +83,8 @@ export default class Facebook extends React.Component<IFacebookProps, IFacebookS
 
   @autobind
   private _onUpdate() {
-    this.props.setLoginStatus(this.state.isLoggedIn);
+    const name: string = `${this.state.firstName} ${this.state.lastName}`;
+    this.props.setLoginStatus(this.state.isLoggedIn, name);
   }
 
   public render() {
@@ -100,15 +100,15 @@ export default class Facebook extends React.Component<IFacebookProps, IFacebookS
           size="metro"
         />
       );
-    } else {
-      fbContent = (
-        <div>
-          <img
-            src={this.state.pictureUrl}
-            alt={`${this.state.firstName} ${this.state.lastName}`}
-          />
-        </div>
-      );
+    // } else {
+    //   fbContent = (
+    //     <div>
+    //       <img
+    //         src={this.state.pictureUrl}
+    //         alt={`${this.state.firstName} ${this.state.lastName}`}
+    //       />
+    //     </div>
+    //   );
     }
 
     return (
