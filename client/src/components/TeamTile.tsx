@@ -11,6 +11,7 @@ interface Match {
 }
 
 export interface ITeamProps {
+  id: string;
   name: string;
   sport: string;
   country?: string;

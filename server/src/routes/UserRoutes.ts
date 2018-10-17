@@ -14,5 +14,7 @@ export class UserRoutes {
       .get(this.userController.getUser)
       .put(this.userController.updateUser)
       .delete(this.userController.deleteUser);
+    app.route(`${baseUrl}/users/:userId/teams`)
+      .put(this.userController.addFavoriteTeam);
   }
 }

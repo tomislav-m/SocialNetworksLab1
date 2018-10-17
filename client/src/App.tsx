@@ -9,11 +9,11 @@ import { createRef } from 'react';
 import Teams from './components/Teams';
 
 const data: Array<ITeamProps> = [
-  { name: 'Barcelona', sport: 'Football' },
-  { name: 'Real Madrid', sport: 'Football' },
-  { name: 'Sevilla', sport: 'Football' },
-  { name: 'Valencia', sport: 'Football' },
-  { name: 'Atletico Madrid', sport: 'Football' }
+  { id: '0', name: 'Barcelona', sport: 'Football' }
+  // { id: '1', name: 'Real Madrid', sport: 'Football' },
+  // { id: '2', name: 'Sevilla', sport: 'Football' },
+  // { id: '3', name: 'Valencia', sport: 'Football' },
+  // { id: '4', name: 'Atletico Madrid', sport: 'Football' }
 ];
 
 interface IAppState {

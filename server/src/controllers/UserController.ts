@@ -76,4 +76,9 @@ export class UserController {
       }
     });
   }
+
+  public addFavoriteTeam(req: Request, res: Response, next: NextFunction) {
+    const team = req.body.teamName;
+    User.findOneAndUpdate({ _id: req.params.userId }, { $push: { favoriteTeams: team } });
+  }
 }
