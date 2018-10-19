@@ -25,3 +25,7 @@ export function updateUser(user: any) {
     }
   });
 }
+
+export function addFavoriteTeam(userId: string, teamId: string) {
+  return fetch(`${url}/${userId}/${teamId}`);
+}

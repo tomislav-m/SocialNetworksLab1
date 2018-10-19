@@ -78,7 +78,19 @@ export class UserController {
   }
 
   public addFavoriteTeam(req: Request, res: Response, next: NextFunction) {
-    const team = req.body.teamName;
-    User.findOneAndUpdate({ _id: req.params.userId }, { $push: { favoriteTeams: team } });
+    const team = req.params.teamId;
+    console.log(team);
+    User.findOneAndUpdate({ _id: req.params.userId }, { $push: { favoriteTeams: team } },
+      (err, user) => {
+        if (err) {
+          next(err);
+        } else if (user) {
+          res.json(user);
+        } else {
+          err = new Error('User with given id not found!');
+          err.status = 404;
+          next(err);
+        }
+      });
   }
 }

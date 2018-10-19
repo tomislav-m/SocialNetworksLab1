@@ -19,7 +19,10 @@ export const UserSchema = new Schema({
     type: String,
     required: true
   },
-  favoriteTeams: [ String ],
+  favoriteTeams: {
+    type: [String],
+    required: true
+  },
   _id: {
     type: String,
     required: true

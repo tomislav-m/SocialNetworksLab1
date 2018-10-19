@@ -4,7 +4,7 @@ import autobind from 'autobind-decorator';
 import { updateUser } from 'src/actions/facebookActions';
 
 interface IFacebookProps {
-  setLoginStatus(isLoggedIn: boolean, name: string): void;
+  setLoginStatus(isLoggedIn: boolean, name: string, userId: string): void;
 }
 
 interface IFacebookState {
@@ -14,6 +14,7 @@ interface IFacebookState {
   lastName: string;
   email: string;
   pictureUrl: string;
+  favoriteTeams: Array<any>;
 }
 
 const defaultState: IFacebookState = {
@@ -22,7 +23,8 @@ const defaultState: IFacebookState = {
   firstName: '',
   lastName: '',
   email: '',
-  pictureUrl: ''
+  pictureUrl: '',
+  favoriteTeams: []
 };
 
 export default class Facebook extends React.Component<IFacebookProps, IFacebookState> {
@@ -84,7 +86,7 @@ export default class Facebook extends React.Component<IFacebookProps, IFacebookS
   @autobind
   private _onUpdate() {
     const name: string = `${this.state.firstName} ${this.state.lastName}`;
-    this.props.setLoginStatus(this.state.isLoggedIn, name);
+    this.props.setLoginStatus(this.state.isLoggedIn, name, this.state.userId);
   }
 
   public render() {

@@ -2,38 +2,32 @@ import * as React from 'react';
 import './App.css';
 
 import Facebook from './components/Facebook';
-import TeamTile, { ITeamProps } from './components/TeamTile';
-import { Navbar, Nav, NavItem, Image, Grid, Row, Col } from 'react-bootstrap';
+import { Navbar, Nav, NavItem } from 'react-bootstrap';
 import autobind from 'autobind-decorator';
 import { createRef } from 'react';
 import Teams from './components/Teams';
 
-const data: Array<ITeamProps> = [
-  { id: '0', name: 'Barcelona', sport: 'Football' }
-  // { id: '1', name: 'Real Madrid', sport: 'Football' },
-  // { id: '2', name: 'Sevilla', sport: 'Football' },
-  // { id: '3', name: 'Valencia', sport: 'Football' },
-  // { id: '4', name: 'Atletico Madrid', sport: 'Football' }
-];
-
 interface IAppState {
   isLoggedIn: boolean;
   name: string;
+  userId: string;
 }
 
 class App extends React.Component<{}, IAppState> {
   public state: IAppState = {
     isLoggedIn: false,
-    name: ''
+    name: '',
+    userId: ''
   };
 
   private myRef: React.RefObject<Facebook> = createRef<Facebook>();
 
   @autobind
-  private setLogged(isLoggedIn: boolean, name: string) {
+  private setLogged(isLoggedIn: boolean, name: string, userId: string) {
     this.setState({
       isLoggedIn,
-      name
+      name,
+      userId
     });
   }
 
@@ -68,7 +62,7 @@ class App extends React.Component<{}, IAppState> {
           ref={this.myRef}
         />
         {isLoggedIn &&
-          <Teams teams={data}/>
+          <Teams user={this.state.userId} />
         }
       </div>
     );
