@@ -3,24 +3,22 @@ import { FormControl, Form, Button, ListGroup, ListGroupItem, Tooltip, OverlayTr
 import autobind from 'autobind-decorator';
 import { searchTeams } from 'src/actions/teamActions';
 import './search.css';
-import { ITeamProps } from './TeamTile';
-import { addFavoriteTeam } from 'src/actions/facebookActions';
 
 interface ISearchProps {
-  addToFavorites(teamId: string): void;
+  addToFavorites(team: any): void;
 }
 
 interface ISearchState {
   filterText: string;
-  teams: Array<ITeamProps>;
-  filteredTeams: Array<ITeamProps>;
+  teams: Array<any>;
+  filteredTeams: Array<any>;
   searchBoxFocused: boolean;
-  selectedTeam: string;
+  selectedTeam: any;
   filtered: boolean;
   searching: boolean;
 }
 
-function mapDataToTeam(data: any): ITeamProps {
+export function mapDataToTeam(data: any): any {
   return {
     id: data.idTeam,
     name: data.strTeam,
@@ -29,9 +27,21 @@ function mapDataToTeam(data: any): ITeamProps {
     league: data.strLeague,
     facebookLink: data.strFacebook,
     twitterLink: data.strTwitter,
-    website: data.strWebsite
+    website: data.strWebsite,
+    logoUrl: data.strTeamBadge
   };
 }
+
+const defaultTeam = {
+  id: '',
+  name: '',
+  sport: '',
+  country: '',
+  league: '',
+  facebookLink: '',
+  twitterLink: '',
+  website: ''
+};
 
 export default class Search extends React.Component<ISearchProps, ISearchState> {
   constructor(props: ISearchProps) {
@@ -42,7 +52,7 @@ export default class Search extends React.Component<ISearchProps, ISearchState> 
       teams: [],
       filteredTeams: [],
       searchBoxFocused: false,
-      selectedTeam: '',
+      selectedTeam: defaultTeam,
       filtered: false,
       searching: false
     };
@@ -58,8 +68,8 @@ export default class Search extends React.Component<ISearchProps, ISearchState> 
     const promise = Promise.resolve(searchTeams(this.state.filterText));
     promise.then(data => {
       if (data.teams && data.teams.length > 0) {
-        const teams: Array<ITeamProps> = [];
-        (data.teams as Array<ITeamProps>).forEach((teamData: ITeamProps) => {
+        const teams: Array<any> = [];
+        (data.teams as Array<any>).forEach((teamData: any) => {
           const team = mapDataToTeam(teamData);
           teams.push(team);
         });
@@ -77,7 +87,7 @@ export default class Search extends React.Component<ISearchProps, ISearchState> 
   private _handleChange(ev: any) {
     const newText = ev.target.value;
     const { teams, filtered } = this.state;
-    this.setState({ filterText: newText, selectedTeam: '' });
+    this.setState({ filterText: newText, selectedTeam: defaultTeam });
 
     if (!filtered) {
       return;
@@ -87,7 +97,7 @@ export default class Search extends React.Component<ISearchProps, ISearchState> 
       });
       return;
     }
-    const filteredTeams: Array<ITeamProps> = [];
+    const filteredTeams: Array<any> = [];
     teams.forEach(team => {
       if (team.name.toLowerCase().includes(newText.toLowerCase())) {
         filteredTeams.push(team);
@@ -115,10 +125,10 @@ export default class Search extends React.Component<ISearchProps, ISearchState> 
   }
 
   @autobind
-  private _onTeamSelected(teamName: string, teamId: string) {
+  private _onTeamSelected(team: any) {
     this.setState({
-      selectedTeam: teamId,
-      filterText: teamName
+      selectedTeam: team,
+      filterText: team.name
     });
   }
 
@@ -131,7 +141,7 @@ export default class Search extends React.Component<ISearchProps, ISearchState> 
           filteredTeams.map(team => {
             return (
               <OverlayTrigger overlay={this._renderTooltip(team)}>
-                <ListGroupItem href="#" onClick={() => this._onTeamSelected(team.name, team.id)}>
+                <ListGroupItem href="#" onClick={() => this._onTeamSelected(team)}>
                   {team.name}
                 </ListGroupItem>
               </OverlayTrigger>
@@ -174,7 +184,7 @@ export default class Search extends React.Component<ISearchProps, ISearchState> 
             onBlur={this._onSearchBoxBlur}
             disabled={this.state.searching}
           >Search</Button>
-          {this.state.selectedTeam !== '' &&
+          {this.state.selectedTeam !== defaultTeam &&
             <Button
               disabled={this.state.searching}
               onClick={() => this.props.addToFavorites(this.state.selectedTeam)}

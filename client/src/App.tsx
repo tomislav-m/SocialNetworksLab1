@@ -11,23 +11,26 @@ interface IAppState {
   isLoggedIn: boolean;
   name: string;
   userId: string;
+  favoriteTeamsIds: Array<any>;
 }
 
 class App extends React.Component<{}, IAppState> {
   public state: IAppState = {
     isLoggedIn: false,
     name: '',
-    userId: ''
+    userId: '',
+    favoriteTeamsIds: []
   };
 
   private myRef: React.RefObject<Facebook> = createRef<Facebook>();
 
   @autobind
-  private setLogged(isLoggedIn: boolean, name: string, userId: string) {
+  private setLogged(isLoggedIn: boolean, name: string, userId: string, favoriteTeamsIds: Array<any>) {
     this.setState({
       isLoggedIn,
       name,
-      userId
+      userId,
+      favoriteTeamsIds
     });
   }
 
@@ -62,7 +65,7 @@ class App extends React.Component<{}, IAppState> {
           ref={this.myRef}
         />
         {isLoggedIn &&
-          <Teams user={this.state.userId} />
+          <Teams user={this.state.userId} teamsIds={this.state.favoriteTeamsIds} />
         }
       </div>
     );

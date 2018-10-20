@@ -1,5 +1,4 @@
 import * as React from 'react';
-import autobind from 'autobind-decorator';
 import { Panel, ListGroup, ListGroupItem, Image } from 'react-bootstrap';
 
 interface Match {
@@ -19,13 +18,14 @@ export interface ITeamProps {
   website?: string;
   facebookLink?: string;
   twitterLink?: string;
+  logoUrl?: string;
 }
 
 interface ITeamState {
   matches: Array<Match>;
 }
 
-export default class TeamTile extends React.Component<ITeamProps, ITeamState> {
+export class TeamTile extends React.Component<ITeamProps, ITeamState> {
   constructor(props: ITeamProps) {
     super(props);
   }
@@ -35,7 +35,7 @@ export default class TeamTile extends React.Component<ITeamProps, ITeamState> {
   };
 
   public render() {
-    const { name, sport } = this.props;
+    const { name, sport, logoUrl } = this.props;
 
     return (
       <div>
@@ -46,8 +46,9 @@ export default class TeamTile extends React.Component<ITeamProps, ITeamState> {
           <ListGroup>
             <ListGroupItem>
               <Image
-                src="https://i.ebayimg.com/images/g/GwgAAOSwxVpZkEqJ/s-l640.png"
+                src={logoUrl}
                 width={50}
+                alt={name}
               />
             </ListGroupItem>
             <ListGroupItem><strong>Sport: </strong>{sport}</ListGroupItem>

@@ -4,7 +4,7 @@ import autobind from 'autobind-decorator';
 import { updateUser } from 'src/actions/facebookActions';
 
 interface IFacebookProps {
-  setLoginStatus(isLoggedIn: boolean, name: string, userId: string): void;
+  setLoginStatus(isLoggedIn: boolean, name: string, userId: string, favoriteTeams: Array<any>): void;
 }
 
 interface IFacebookState {
@@ -44,7 +44,13 @@ export default class Facebook extends React.Component<IFacebookProps, IFacebookS
         return;
       }
       const user = this.state;
-      updateUser(user);
+      const promise = updateUser(user);
+      promise.then((userData) => {
+        const favoriteTeams = [ ...userData.favoriteTeams ];
+        this.setState({
+          favoriteTeams
+        });
+      }).then(() => this._onUpdate());
     }
   }
 
@@ -86,7 +92,7 @@ export default class Facebook extends React.Component<IFacebookProps, IFacebookS
   @autobind
   private _onUpdate() {
     const name: string = `${this.state.firstName} ${this.state.lastName}`;
-    this.props.setLoginStatus(this.state.isLoggedIn, name, this.state.userId);
+    this.props.setLoginStatus(this.state.isLoggedIn, name, this.state.userId, this.state.favoriteTeams);
   }
 
   public render() {
@@ -102,15 +108,15 @@ export default class Facebook extends React.Component<IFacebookProps, IFacebookS
           size="metro"
         />
       );
-    // } else {
-    //   fbContent = (
-    //     <div>
-    //       <img
-    //         src={this.state.pictureUrl}
-    //         alt={`${this.state.firstName} ${this.state.lastName}`}
-    //       />
-    //     </div>
-    //   );
+      // } else {
+      //   fbContent = (
+      //     <div>
+      //       <img
+      //         src={this.state.pictureUrl}
+      //         alt={`${this.state.firstName} ${this.state.lastName}`}
+      //       />
+      //     </div>
+      //   );
     }
 
     return (

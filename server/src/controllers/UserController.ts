@@ -49,6 +49,7 @@ export class UserController {
   }
 
   public updateUser(req: Request, res: Response, next: NextFunction) {
+    delete req.body.favoriteTeams;
     User.findOneAndUpdate({ _id: req.params.userId }, req.body, { new: true, upsert: true },
       (err, user) => {
         if (err) {
