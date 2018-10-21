@@ -1,16 +1,5 @@
-.search-container {
-  float: left;
-  margin-left: 50px;
-}
-
 .suggestions-list {
-  border-radius: 10px;
   width: 204px;
   z-index: 2;
   position: absolute;
-}
-
-.search {
-  width: 204px;
-  margin-right: 8px;
 }

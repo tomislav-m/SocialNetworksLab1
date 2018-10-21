@@ -54,19 +54,28 @@ export default class Teams extends React.Component<ITeamsProps, ITeamsState> {
     const { teams } = this.state;
     return (
       <div>
-        <Search addToFavorites={this._addFavoriteTeam} />
         <Grid>
           <Row>
-            {teams.length > 0 && teams.map((team) =>
-              <Col xs={6} md={3}>
-                <TeamTile
-                  id={team.id}
-                  name={team.name}
-                  sport={team.sport}
-                  logoUrl={team.logoUrl}
-                />
-              </Col>
-            )}
+            <Col xs={6} md={3} id="leftCol">
+              <Search addToFavorites={this._addFavoriteTeam} />
+            </Col>
+            <Col xs={6} md={9} id="rightCol">
+              {teams.length > 0 && teams.map((team, index) =>
+                <Col xs={12} md={6} id={'col' + index}>
+                  <TeamTile
+                    id={team.id}
+                    name={team.name}
+                    sport={team.sport}
+                    logoUrl={team.logoUrl}
+                    league={team.league}
+                    country={team.country}
+                    facebookLink={team.facebookLink}
+                    twitterLink={team.twitterLink}
+                    website={team.website}
+                  />
+                </Col>
+              )}
+            </Col>
           </Row>
         </Grid>
       </div>

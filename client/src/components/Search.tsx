@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { FormControl, Form, Button, ListGroup, ListGroupItem, Tooltip, OverlayTrigger } from 'react-bootstrap';
+import { FormControl, Form, Button, ListGroup, ListGroupItem, Tooltip, OverlayTrigger, FormGroup, InputGroup } from 'react-bootstrap';
 import autobind from 'autobind-decorator';
 import { searchTeams } from 'src/actions/teamActions';
 import './search.css';
@@ -138,9 +138,9 @@ export default class Search extends React.Component<ISearchProps, ISearchState> 
     return (
       <ListGroup className="suggestions-list">
         {filteredTeams.length > 0 ?
-          filteredTeams.map(team => {
+          filteredTeams.map((team, index) => {
             return (
-              <OverlayTrigger overlay={this._renderTooltip(team)}>
+              <OverlayTrigger overlay={this._renderTooltip(team)} key={index}>
                 <ListGroupItem href="#" onClick={() => this._onTeamSelected(team)}>
                   {team.name}
                 </ListGroupItem>
@@ -168,22 +168,30 @@ export default class Search extends React.Component<ISearchProps, ISearchState> 
 
   public render() {
     return (
-      <div className="search-container">
+      <div>
         <Form onSubmit={this._onSearch} inline>
-          <FormControl className="search"
-            type="text"
-            value={this.state.filterText}
-            placeholder="Start typing to search..."
-            onChange={this._handleChange}
-            onFocus={this._onSearchBoxFocus}
-            onBlur={this._onSearchBoxBlur}
-          />
-          <Button
-            type="submit"
-            onFocus={this._onSearchBoxFocus}
-            onBlur={this._onSearchBoxBlur}
-            disabled={this.state.searching}
-          >Search</Button>
+          <FormGroup>
+            <InputGroup>
+              <FormGroup>
+                <FormControl
+                  type="text"
+                  value={this.state.filterText}
+                  placeholder="Start typing to search..."
+                  onChange={this._handleChange}
+                  onFocus={this._onSearchBoxFocus}
+                  onBlur={this._onSearchBoxBlur}
+                />
+              </FormGroup>
+              <InputGroup.Button>
+                <Button
+                  type="submit"
+                  onFocus={this._onSearchBoxFocus}
+                  onBlur={this._onSearchBoxBlur}
+                  disabled={this.state.searching}
+                >Search</Button>
+              </InputGroup.Button>
+            </InputGroup>
+          </FormGroup>
           {this.state.selectedTeam !== defaultTeam &&
             <Button
               disabled={this.state.searching}
