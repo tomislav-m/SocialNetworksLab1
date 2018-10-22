@@ -1,5 +1,5 @@
 .suggestions-list {
   width: 204px;
-  z-index: 2;
+  z-index: 10000;
   position: absolute;
 }

@@ -63,6 +63,7 @@ class App extends React.Component<{}, IAppState> {
         <Facebook
           setLoginStatus={this.setLogged}
           ref={this.myRef}
+          className="fb"
         />
         {isLoggedIn &&
           <Teams user={this.state.userId} teamsIds={this.state.favoriteTeamsIds} />

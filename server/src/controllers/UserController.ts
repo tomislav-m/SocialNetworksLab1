@@ -94,4 +94,20 @@ export class UserController {
         }
       });
   }
+
+  public unfollowTeam(req: Request, res: Response, next: NextFunction) {
+    const team = req.params.teamId;
+    User.findOneAndUpdate({ _id: req.params.userId }, { $pull: { favoriteTeams: team } },
+      (err, user) => {
+        if (err) {
+          next(err);
+        } else if (user) {
+          res.json(user);
+        } else {
+          err = new Error('User with given id not found!');
+          err.status = 404;
+          next(err);
+        }
+      });
+  }
 }

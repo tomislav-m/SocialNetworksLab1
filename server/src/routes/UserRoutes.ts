@@ -16,5 +16,7 @@ export class UserRoutes {
       .delete(this.userController.deleteUser);
     app.route(`${baseUrl}/users/:userId/:teamId`)
       .get(this.userController.addFavoriteTeam);
+      app.route(`${baseUrl}/unfollow/:userId/:teamId`)
+      .get(this.userController.unfollowTeam);
   }
 }

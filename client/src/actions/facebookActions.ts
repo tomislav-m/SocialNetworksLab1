@@ -39,3 +39,7 @@ export function updateUser(user: any) {
 export function addFavoriteTeam(userId: string, teamId: string) {
   return fetch(`${url}/${userId}/${teamId}`);
 }
+
+export function unfollowTeam(userId: string, teamId: string) {
+  return fetch(`http://localhost:8000/api/unfollow/${userId}/${teamId}`);
+}

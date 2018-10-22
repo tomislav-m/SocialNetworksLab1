@@ -28,7 +28,9 @@ export function mapDataToTeam(data: any): any {
     facebookLink: data.strFacebook,
     twitterLink: data.strTwitter,
     website: data.strWebsite,
-    logoUrl: data.strTeamBadge
+    logoUrl: data.strTeamBadge,
+    youtubeLink: data.strYoutube,
+    stadium: data.strStadium
   };
 }
 
@@ -40,7 +42,8 @@ const defaultTeam = {
   league: '',
   facebookLink: '',
   twitterLink: '',
-  website: ''
+  website: '',
+  youtubeLink: ''
 };
 
 export default class Search extends React.Component<ISearchProps, ISearchState> {
@@ -75,11 +78,13 @@ export default class Search extends React.Component<ISearchProps, ISearchState> 
         });
         this.setState({
           teams,
-          filteredTeams: teams.slice(),
-          filtered: true,
-          searching: false
+          filteredTeams: teams.slice()
         });
       }
+      this.setState({
+        filtered: true,
+        searching: false
+      });
     });
   }
 

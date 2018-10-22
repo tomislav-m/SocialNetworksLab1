@@ -5,6 +5,7 @@ import { updateUser } from 'src/actions/facebookActions';
 
 interface IFacebookProps {
   setLoginStatus(isLoggedIn: boolean, name: string, userId: string, favoriteTeams: Array<any>): void;
+  className?: string;
 }
 
 interface IFacebookState {
@@ -46,7 +47,7 @@ export default class Facebook extends React.Component<IFacebookProps, IFacebookS
       const user = this.state;
       const promise = updateUser(user);
       promise.then((userData) => {
-        const favoriteTeams = [ ...userData.favoriteTeams ];
+        const favoriteTeams = [...userData.favoriteTeams];
         this.setState({
           favoriteTeams
         });
@@ -100,13 +101,15 @@ export default class Facebook extends React.Component<IFacebookProps, IFacebookS
 
     if (!this.state.isLoggedIn) {
       fbContent = (
-        <FacebookLogin
-          appId="129505914269596"
-          autoLoad={true}
-          fields="first_name,last_name,email,picture.type(large)"
-          callback={this._responseFacebook}
-          size="metro"
-        />
+        <span className={this.props.className}>
+          <FacebookLogin
+            appId="129505914269596"
+            autoLoad={true}
+            fields="first_name,last_name,email,picture.type(large)"
+            callback={this._responseFacebook}
+            size="metro"
+          />
+        </span>
       );
       // } else {
       //   fbContent = (
@@ -120,7 +123,7 @@ export default class Facebook extends React.Component<IFacebookProps, IFacebookS
     }
 
     return (
-      <div>{fbContent}</div>
+      <div >{fbContent}</div>
     );
   }
 }
